@@ -1,0 +1,13 @@
+FOR 5 rounds
+    GET computer choice
+    GET player choice
+    DETERMINE the winner
+    IF player is the winner
+        INCREMENT player score
+    ELSE
+        INCREMENT computer score
+    END IF
+END FOR
+
+DETERMINE overall winner
+DISPLAY winner
