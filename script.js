@@ -1,25 +1,26 @@
 // print hello world to the console
 console.log("hello world");
 
-NUM_ROUNDS = 5;
+const NUM_ROUNDS = 5;
 
 // create a function to randomly generate a computer choice
 function getComputerChoice() {
-    let randNumber = Math.floor(Math.random() * 3);
-    let computerChoice;
-    if (randNumber == 0){
-        computerChoice = "Rock";
-    } else if (randNumber == 1){
-        computerChoice = "Paper";
-    } else {
-        computerChoice = "Scissor";
-    }
-    return computerChoice;
+    const choices = ["rock", "paper", "scissor"];
+    const randIndex = Math.floor(Math.random() * 3);
+    return choices[randIndex];
 }
 
 // create a function to get the human choice as input
 function getHumanChoice() {
-    let humanChoice = prompt("Rock... paper... scissor!");
+    // define a list of valid choices for the person
+    const validChoices = ["rock", "paper", "scissor"];
+
+    // ensure correct usage
+    let humanChoice;
+    do {
+        humanChoice = prompt("Rock... paper... scissor!");
+    }
+    while (!validChoices.includes(humanChoice));
     return humanChoice;
 }
 
@@ -28,32 +29,37 @@ function playGame() {
     let humanScore = 0;
     let computerScore = 0;
 
-    // define the function to play a single round
-    function playRound(humanChoice, computerChoice) {
+    // locally declare the function expression for a single round
+    const playRound = (humanChoice, computerChoice) => {
+        // map out winners and losers
+        const outcomes = {
+            "rock": "scissor",
+            "scissor": "paper",
+            "paper": "rock"
+        };
 
-        // convert the choices to lowercase so we can reliably compare them
-        let humanChoiceLower = humanChoice.toLowerCase();
-        let computerChoiceLower = computerChoice.toLowerCase();
-        
-        // determine the winner of this roudn and increment their score
-        if (humanChoiceLower == "rock" & computerChoiceLower == "scissor") {
-            return humanScore++;
-        } else if (humanChoiceLower == "scissor" & computerChoiceLower == "paper") {
-            return humanScore++;
-        } else if (humanChoiceLower == "paper" & computerChoiceLower == "rock") {
-            return humanScore ++;
-        } else if (humanChoiceLower == computerChoiceLower){
+        // if we pick the same as the machine, tie
+        if (humanChoice === computerChoice) {
+            console.log("Tie this round!");
             return;
-        } else {
-            return computerScore ++;
         }
-    }
+        // outcomes[humanChoice] returns the string that human choice beats
+        // if that is equal to the computer choice, the human wins
+        if (outcomes[humanChoice] === computerChoice) {
+            humanScore++;
+            console.log("Human wins this round!");
+        // otherwise, computer wins
+        } else {
+            computerScore++;
+            console.log("Computer wins this round!");
+        }
+    };
 
     // iterate for the specified number of rounds
     for (let i = 0; i < NUM_ROUNDS; i++) {
         // get the choices of the player and the computer
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
+        const humanChoice = getHumanChoice();
+        const computerChoice = getComputerChoice();
         console.log("Computer choice: ", computerChoice);
         console.log("Human choice: ", humanChoice);
 
@@ -65,11 +71,11 @@ function playGame() {
 
     // determine the winner and print it to the screen
     if (humanScore > computerScore) {
-        console.log("Human wins!");
+        console.log("Human wins the game!");
     } else if (humanScore < computerScore) {
-        console.log("Computer wins!");
+        console.log("Computer wins the game!");
     } else {
-        console.log("Tie!");
+        console.log("Game is a tie!");
     }
     return;
 }
