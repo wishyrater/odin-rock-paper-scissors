@@ -6,6 +6,90 @@
         <title>Rock, Paper, Scissors</title>
     </head>
     <body>
-        <script src="script.js"></script>
+        <div class="buttons">
+            <button value="rock">Rock</button>
+            <button value="paper">Paper</button>
+            <button value="scissor">Scissors</button>
+        </div>
+        <div class="results">
+        </div>
+        
+        <script>
+            let playerScore = 0;
+            let computerScore = 0;
+
+            const results = document.querySelector(".results");
+
+            const score1 = document.createElement("p");
+            const score2 = document.createElement("p");
+
+            results.appendChild(score1);
+            results.appendChild(score2);
+
+            score1.textContent = `Player score: ${playerScore}`;
+            score2.textContent = `Computer score: ${computerScore}`;
+
+            function getComputerChoice() {
+                const choices = ["rock", "paper", "scissor"];
+                const randIndex = Math.floor(Math.random() * 3);
+                return choices[randIndex];
+            }
+
+            function updateScores() {
+                score1.textContent = `Player score: ${playerScore}`;
+                score2.textContent = `Computer score: ${computerScore}`;
+            }
+
+            function disableButtons() {
+                const buttons = document.querySelectorAll(".buttons");
+                buttons.forEach(button => button.disabled = true);
+            }
+
+            function checkWinner() {
+                const result = document.createElement("p");
+
+                if (playerScore == 5) {
+                    result.textContent = 'Player wins';
+                    results.appendChild(result);
+                    disableButtons();
+                } else if (computerScore == 5) {
+                    result.textContent = 'Computer wins';
+                    results.appendChild(result);
+                    disableButtons();
+                }
+            }
+
+            function playRound(playerChoice, computerChoice) {
+                outcomes = {
+                    "rock": "scissor",
+                    "scissor": "paper",
+                    "paper": "rock",
+                }
+
+                if (playerChoice == computerChoice) {
+                    console.log("Tie");
+                    return;
+                }
+
+                if (outcomes[playerChoice] == computerChoice) {
+                    console.log("Player wins");
+                    playerScore++;
+                } else {
+                    console.log("Computer wins");
+                    computerScore++;
+                }
+
+                updateScores();
+                checkWinner();
+            }
+
+            const buttons = document.querySelectorAll(".buttons");
+
+            buttons.forEach(button => button.addEventListener("click", (e) => {
+                const playerChoice = e.target.value;
+                const computerChoice = getComputerChoice();
+                playRound(playerChoice, computerChoice);
+            }));
+        </script>
     </body>
 </html>
