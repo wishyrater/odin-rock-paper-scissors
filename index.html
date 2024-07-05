@@ -60,6 +60,7 @@
             }
 
             function playRound(playerChoice, computerChoice) {
+                const result = document.createElement("p");
                 outcomes = {
                     "rock": "scissor",
                     "scissor": "paper",
@@ -67,17 +68,19 @@
                 }
 
                 if (playerChoice == computerChoice) {
-                    console.log("Tie");
+                    result.textContent = "Tie";
                     return;
                 }
 
                 if (outcomes[playerChoice] == computerChoice) {
-                    console.log("Player wins");
+                    result.textContent = "Player won this round";
                     playerScore++;
                 } else {
-                    console.log("Computer wins");
+                    result.textContent = "Computer won this round";
                     computerScore++;
                 }
+
+                results.appendChild(result);
 
                 updateScores();
                 checkWinner();
